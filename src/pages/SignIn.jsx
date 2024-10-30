@@ -1,0 +1,112 @@
+
+import React, { useState } from 'react';
+import styled from 'styled-components';
+
+
+const SignInContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f3f4f6;
+`;
+
+const FormWrapper = styled.div`
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+`;
+
+const Title = styled.h2`
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+`;
+
+const InputField = styled.input`
+  width: 100%;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-color: #4a90e2;
+  }
+`;
+
+const SignInButton = styled.button`
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #4a90e2;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #357abd;
+  }
+`;
+
+const CreateAccount = styled.a`
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  color: #4a90e2;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const SignIn = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    // Sign-in logic here
+  };
+
+  return (
+    <SignInContainer>
+      <FormWrapper>
+        <Title>Sign In</Title>
+        <form onSubmit={handleSignIn}>
+          <InputField
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <InputField
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <SignInButton type="submit">Sign In</SignInButton>
+        </form>
+        <CreateAccount href="/signup">Don't you have an account?</CreateAccount>
+      </FormWrapper>
+    </SignInContainer>
+  );
+};
+
+export default SignIn;
