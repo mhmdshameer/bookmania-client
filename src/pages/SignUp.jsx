@@ -1,6 +1,9 @@
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import {useDispatch} from "react-redux"
+import { useNavigate } from 'react-router-dom';
+import { signup } from '../action/auth';
 
 // Styled components
 const SignUpContainer = styled.div`
@@ -75,15 +78,26 @@ const LoginLink = styled.a`
   }`;
 
 
+const initialState = {
+    username: '',
+    email: '',
+    password: '', 
+  };
+
 
 const SignUp = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState(initialState);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleChange=(e)=>{
+    setFormData({...formData,[e.target.name]: [e.target.value]})
+  }
+ 
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    // Sign-up logic here
+    dispatch(signup(formData, navigate))
   };
 
   return (
@@ -93,23 +107,23 @@ const SignUp = () => {
         <form onSubmit={handleSignUp}>
           <InputField
             type="text"
+            name='username'
             placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={handleChange}
             required
           />
           <InputField
             type="email"
+            name='email'
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleChange}
             required
           />
           <InputField
             type="password"
+            name='password'
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={ handleChange}
             required
           />
           <SignUpButton type="submit">Sign Up</SignUpButton>

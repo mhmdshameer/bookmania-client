@@ -46,6 +46,11 @@ const Navbar = () => {
     </RightSide>
     <LeftSide>
         <SearchBar/>
+        <Link to={'/form'}>
+        <Button>
+            Add
+        </Button>
+        </Link>
         <Link to={'/signin'}>
         <Button>Sign In</Button>
         </Link>
