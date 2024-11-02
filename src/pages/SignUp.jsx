@@ -1,11 +1,14 @@
+// SignUp.js
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { signup } from "../action/auth";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
+import AvatarUploader from "./avatarUploader";
 
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import {useDispatch} from "react-redux"
-import { useNavigate } from 'react-router-dom';
-import { signup } from '../action/auth';
-
-// Styled components
+// Styled components (existing styles)
 const SignUpContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -21,6 +24,7 @@ const FormWrapper = styled.div`
   border-radius: 10px;
   background: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
 `;
 
 const Title = styled.h2`
@@ -75,56 +79,73 @@ const LoginLink = styled.a`
 
   &:hover {
     text-decoration: underline;
-  }`;
-
+  }
+`;
 
 const initialState = {
-    username: '',
-    email: '',
-    password: '', 
-  };
-
+  username: "",
+  email: "",
+  password: "",
+};
 
 const SignUp = () => {
   const [formData, setFormData] = useState(initialState);
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const [avatarUrl, setAvatarUrl] = useState(null); // State to store image URL
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
-  const handleChange=(e)=>{
-    setFormData({...formData,[e.target.name]: e.target.value})
-  }
- 
+  const handleShowPassword = () => setShow((prev) => !prev);
+
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    dispatch(signup(formData, navigate))
+    dispatch(signup({ ...formData, profile: avatarUrl }, navigate));
   };
 
   return (
     <SignUpContainer>
       <FormWrapper>
         <Title>Sign Up</Title>
+
+        {/* Avatar Upload Component */}
+        <AvatarUploader setAvatarUrl={setAvatarUrl} />
+
         <form onSubmit={handleSignUp}>
           <InputField
             type="text"
-            name='username'
+            name="username"
             placeholder="Username"
             onChange={handleChange}
             required
           />
           <InputField
             type="email"
-            name='email'
+            name="email"
             placeholder="Email"
             onChange={handleChange}
             required
           />
-          <InputField
-            type="password"
-            name='password'
-            placeholder="Password"
-            onChange={ handleChange}
+          <TextField
+            type={show ? "text" : "password"}
+            name="password"
+            label="Password"
+            variant="outlined"
+            fullWidth
+            onChange={handleChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleShowPassword} edge="end">
+                    {show ? <MdOutlineVisibility /> : <MdOutlineVisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
             required
+            margin="normal"
           />
           <SignUpButton type="submit">Sign Up</SignUpButton>
         </form>

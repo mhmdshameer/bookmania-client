@@ -1,7 +1,10 @@
-
-import React, { useState } from 'react';
-import styled from 'styled-components';
-
+import { IconButton, InputAdornment, TextField } from "@mui/material";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { signin } from "../action/auth";
+import { useNavigate } from "react-router-dom";
 
 const SignInContainer = styled.div`
   display: flex;
@@ -75,13 +78,33 @@ const CreateAccount = styled.a`
   }
 `;
 
-const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const ErrorMessage = styled.p`
+  color: red;
+  text-align: center;
+  margin-top: 1rem;
+`;
 
-  const handleSignIn = (e) => {
+const SignIn = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleShowPassword = () => {
+    setShow((prev) => !prev);
+  };
+
+  const handleSignIn = async (e) => {
     e.preventDefault();
-    // Sign-in logic here
+    setErrorMessage(""); // Reset error message
+
+    try {
+      await dispatch(signin({ email, password }, navigate)); // Await dispatch
+    } catch (error) {
+      setErrorMessage(error.message); // Set error message on catch
+    }
   };
 
   return (
@@ -95,13 +118,29 @@ const SignIn = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <InputField
-            type="password"
-            placeholder="Password"
+          <TextField
+            type={show ? "text" : "password"}
+            label="Password"
+            variant="outlined"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleShowPassword} edge="end">
+                    {show ? (
+                      <MdOutlineVisibility />
+                    ) : (
+                      <MdOutlineVisibilityOff />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <SignInButton type="submit">Sign In</SignInButton>
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>} {/* Display error message */}
         </form>
         <CreateAccount href="/signup">Don't you have an account?</CreateAccount>
       </FormWrapper>

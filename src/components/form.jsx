@@ -63,13 +63,14 @@ const Form = ({ currentId, setCurrentId }) => {
         sx={{
           padding: theme.spacing(2),
           backgroundColor: "white",
+          margin: "auto",
+          marginTop: "30px",
           width: {
             xs: "100%", 
             sm: "500px",
             md: "600px", 
             lg: "700px", 
           },
-          margin: 'auto', 
         }}
       >
         <form

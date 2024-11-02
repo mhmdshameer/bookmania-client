@@ -1,10 +1,10 @@
 
-const reducer= (state=[], action) => {
+const postReducer= (state= {posts:[]}, action) => {
     switch (action.type) {
         case "FETCH":{
             return {
                 ...state,
-                posts: action.payload.data
+                posts: action.payload
             }
         }
         case "CREATE": {
@@ -17,4 +17,4 @@ const reducer= (state=[], action) => {
     }
 }
  
-export default reducer;
+export default postReducer;

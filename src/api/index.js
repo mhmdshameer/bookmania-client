@@ -8,8 +8,10 @@ API.interceptors.request.use(request => {
   });  
 
 export const signUp = (formData) => API.post("/user/signup",formData);
+export const signIn = (formData) => API.post("/user/signin",formData);
+export const fetchUsers = () => API.get("/user");
 
-
+export const fetchPosts = () => API.get("/posts");
 export const createPost = async (newPost) => {
     try {
       const response = await API.post("/posts", newPost);
