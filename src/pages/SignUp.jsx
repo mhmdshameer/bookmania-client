@@ -81,6 +81,11 @@ const LoginLink = styled.a`
     text-decoration: underline;
   }
 `;
+const ErrorMessage = styled.p`
+  color: red;
+  text-align: center;
+  margin-top: 1rem;
+`;
 
 const initialState = {
   username: "",
@@ -90,6 +95,7 @@ const initialState = {
 
 const SignUp = () => {
   const [formData, setFormData] = useState(initialState);
+  const [errorMessage,setErrorMessage] =useState("")
   const [avatarUrl, setAvatarUrl] = useState(null); // State to store image URL
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -100,9 +106,14 @@ const SignUp = () => {
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSignUp = (e) => {
+  const handleSignUp =async (e) => {
     e.preventDefault();
-    dispatch(signup({ ...formData, profile: avatarUrl }, navigate));
+    setErrorMessage("")
+    try {
+     await dispatch(signup({ ...formData, profile: avatarUrl }, navigate));
+    } catch (error) {
+      setErrorMessage(error.message || "Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -148,6 +159,7 @@ const SignUp = () => {
             margin="normal"
           />
           <SignUpButton type="submit">Sign Up</SignUpButton>
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>} 
         </form>
         <LoginLink href="/signin">Already have an account? Log in</LoginLink>
       </FormWrapper>
