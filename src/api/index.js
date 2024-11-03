@@ -13,6 +13,7 @@ export const fetchUsers = () => API.get("/user");
 export const deleteUser = (id) => API.delete(`/user/${id}`);
 
 export const fetchPosts = () => API.get("/posts");
+export const fetchPost = (id) => API.get(`/posts/${id}`);
 export const createPost = async (newPost) => {
     try {
       const response = await API.post("/posts", newPost);

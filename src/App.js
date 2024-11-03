@@ -17,12 +17,12 @@ function App() {
    
       <Navbar/>
       <Routes>
-       <Route path='/' element={<Home setCurrentId={setCurrentId}/>}/>
+       <Route path='/' element={<Home/>}/>
         <Route path='/adminpage' element={<AdminPage/>} />
         <Route path='/signin' element={<SignIn/>} />
         <Route path='/signup' element={<SignUp/>} />
-        <Route path='/form' element={<Form/>} />
-        <Route path='/book' element={<Book currentId={currentId} />} />
+        <Route path='/form' element={<Form currentId={currentId} setCurrentId={setCurrentId} />} />
+        <Route path='/book/:id' element={<Book setCurrentId={setCurrentId} />} />
       </Routes>
     </BrowserRouter>
    </div>

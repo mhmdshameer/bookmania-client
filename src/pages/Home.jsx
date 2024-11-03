@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Posts from "../components/posts/posts";
 import * as api from "../api/index.js"
 
-const Home = ({setCurrentId}) => {
+const Home = () => {
  const [posts, setPosts] = useState({})
   useEffect(()=>{
     const getPosts= async ()=>{
@@ -27,7 +27,7 @@ const Home = ({setCurrentId}) => {
           sx={{ flexDirection: { xs: "column-reverse", sm: "row" } }}
         >
             <Grid2 item xs={12} sm={9} md={6}>
-               <Posts posts={posts} setCurrentId= {setCurrentId}/> 
+               <Posts posts={posts}/> 
             </Grid2>
         </Grid2>
       </Container>

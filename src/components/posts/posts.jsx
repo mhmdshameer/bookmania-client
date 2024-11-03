@@ -1,7 +1,7 @@
 import { CircularProgress, Grid2 } from '@mui/material';
 import Post from './post/post';
 
-const Posts = ({setCurrentId,posts}) => {
+const Posts = ({posts}) => {
   
   return !posts.length ? (
   <CircularProgress/>
@@ -17,7 +17,7 @@ const Posts = ({setCurrentId,posts}) => {
   >
     {posts.map((post) => (
       <Grid2 key={post._id} item xs={12} sm={6} md={4} lg={3}> 
-        <Post post={post} setCurrentId={setCurrentId} />
+        <Post post={post}/>
       </Grid2>
     ))}
   </Grid2>

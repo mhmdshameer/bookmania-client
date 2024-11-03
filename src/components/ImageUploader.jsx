@@ -15,8 +15,8 @@ const ImageUploader = ({ setPostData, postData }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', margin: '10px 0' }}>
-      <IconButton color="primary" component="label">
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '10px 0' }}>
+      <IconButton color="primary" component="label" sx={{ border: '2px dashed #D9A05B', borderRadius: '10px', padding: '20px', transition: '0.3s', '&:hover': { borderColor: '#B68A44' } }}>
         <PhotoCamera fontSize="large" />
         <input
           type="file"
@@ -33,7 +33,7 @@ const ImageUploader = ({ setPostData, postData }) => {
           <img
             src={postData.selectedFile}
             alt="Uploaded"
-            style={{ width: '100%', maxHeight: '200px', objectFit: 'cover' }}
+            style={{ width: '100%', maxHeight: '200px', objectFit: 'cover', borderRadius: '5px' }}
           />
         </Box>
       )}

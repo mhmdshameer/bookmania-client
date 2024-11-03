@@ -1,9 +1,11 @@
 import React from "react";
 import { Card, CardMedia, Typography, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const Post = ({ post, setCurrentId }) => {
+const Post = ({ post }) => {
+  const navigate = useNavigate();
   const openPost = () => {
-    setCurrentId(post._id);
+     navigate(`/book/${post._id}`);
   };
 
   return (
@@ -15,7 +17,7 @@ const Post = ({ post, setCurrentId }) => {
         width: "170px",
         height: "300px",
         borderRadius: "10px",
-        backgroundColor:"#1F2837",
+        backgroundColor:"rgba(46, 59, 78, 0.8)",
         cursor: "pointer",
         overflow: "hidden",
         display: "flex",
