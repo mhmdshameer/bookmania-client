@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as api from "../api/index.js";
 import { CircularProgress, Container, Box, Typography, Button, Avatar } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Book = ({setCurrentId}) => {
   const { id } = useParams();
@@ -36,8 +36,16 @@ const Book = ({setCurrentId}) => {
     dispatch({type:"DELETE_POST",payload:id})
   }
   const handleTakeBook = async () => {
-    
+    const userId = user.result._id;
+    try {
+      const response = await api.takeBook(userId,id);
+      console.log(response.data.message,user.result);
+      
+    } catch (error) {
+      console.log(error);
+    }
   }
+  
 
   return (
     <Container
@@ -110,7 +118,7 @@ const Book = ({setCurrentId}) => {
                 },
               }}
             >
-              Take the Book
+             {user?.result.book?.includes(id)?"Return Book": "Take Book"}
             </Button>
             {user?.result?.role === "admin" && (
               <Box sx={{ display: "flex", marginTop: "20px" }}>
