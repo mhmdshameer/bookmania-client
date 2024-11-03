@@ -15,20 +15,14 @@ import { useDispatch, useSelector } from "react-redux";
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-//   const [user, setUser] = useState(null)
-//    => {
-//     const storedProfile = localStorage.getItem("profile");
-//     return storedProfile ? JSON.parse(storedProfile) : null;
-//   });
-const user = useSelector((state)=> state);
-console.log(user)
+const user = useSelector((state)=> state.authReducers.authData);
+
 
   const handleLogOut = () => {
     dispatch({ type: "LOGOUT" });
     navigate("/");
   };
 
-  // Safely access userRole
   const userRole = user?.result?.role ;
 
   return (
