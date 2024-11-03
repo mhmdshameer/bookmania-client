@@ -9,12 +9,12 @@ export const createPost =  (post) => async (dispatch) => {
     }
 }
 
-export const getPosts = () => async (dispatch) => {
+export const updatePost = (id,post) => async (dispatch) => {
     console.log("getPost in action rendered")
     try {
-        const {data} = await api.fetchPosts();
+        const {data} = await api.updatePost(id,post);
         console.log(data)
-        dispatch({type: "FETCH", payload: data});
+        dispatch({type: "UPDATE", payload: data});
     } catch (error) {
         console.log(error)
     }

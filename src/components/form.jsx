@@ -3,7 +3,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Button, Paper, TextField, Typography, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createPost } from "../action/posts";
+import { createPost, updatePost } from "../action/posts";
 import ImageUploader from "./ImageUploader";
 
 const theme = createTheme();
@@ -21,7 +21,8 @@ const Form = ({ currentId, setCurrentId }) => {
   
   const navigate = useNavigate();
   const post = useSelector((state) => {
-    return currentId ? state.posts.posts.find((p) => p._id === currentId) : null;
+    console.log(state);
+    return currentId ? state.postReducer.posts.find((p) => p._id === currentId) : null;
   });
   
   const dispatch = useDispatch();
@@ -29,8 +30,10 @@ const Form = ({ currentId, setCurrentId }) => {
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);
+  console.log(postData)
 
   const clear = () => {
+    setCurrentId(null);
     setPostData({
       title: "",
       author: "",
@@ -44,7 +47,11 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost({ ...postData, navigate }));
+    if(currentId){
+      dispatch(updatePost(currentId,postData))
+    }else{
+      dispatch(createPost({ ...postData, }));
+    }
     clear();
     navigate("/");
   };

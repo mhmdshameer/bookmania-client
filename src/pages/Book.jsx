@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as api from "../api/index.js";
 import { CircularProgress, Container, Box, Typography, Button, Avatar } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Book = ({setCurrentId}) => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
   const navigate = useNavigate()
-  const user = useSelector((state) => state.authReducers.authData); 
+  const dispatch = useDispatch()
+  const user =JSON.parse( localStorage.getItem("profile")); 
 
   // Function to fetch the post
   const getPost = async (id) => {
@@ -28,6 +29,14 @@ const Book = ({setCurrentId}) => {
   const handleEdit = () =>{
     setCurrentId(id);
     navigate("/form");
+  }
+  const handleDelete = async () =>{
+      await api.deletePost(id);
+      navigate("/")
+    dispatch({type:"DELETE_POST",payload:id})
+  }
+  const handleTakeBook = async () => {
+    
   }
 
   return (
@@ -82,7 +91,7 @@ const Book = ({setCurrentId}) => {
               Author: {post.author}
             </Typography>
             <Typography variant="body2" sx={{ color: "#E1E5EE", marginBottom: "20px" }}>
-              Description: This builds upon the themes of "Cosmos" by delving deeper into complex questions about the universe, time, and reality.
+              Description:{post.desc}
             </Typography>
             <Typography variant="body1" sx={{ color: "#A8A8A8", marginBottom: "10px" }}>
               Pages: {post.pages}
@@ -92,6 +101,7 @@ const Book = ({setCurrentId}) => {
             </Typography>
             <Button
               variant="contained"
+              onClick={handleTakeBook}
               sx={{
                 backgroundColor: "#D9A05B",
                 color: "#2E3B4E",
@@ -121,6 +131,7 @@ const Book = ({setCurrentId}) => {
                 </Button>
                 <Button
                   variant="outlined"
+                  onClick={handleDelete}
                   sx={{
                     borderColor: "#A64D4D",
                     color: "#A64D4D",

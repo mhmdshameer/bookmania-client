@@ -9,14 +9,14 @@ import {
 import { LibraryBooks as LibraryIcon } from "@mui/icons-material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "./Searchbar";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const user = useSelector((state) => state.authReducers.authData);
-
+  const user =JSON.parse( localStorage.getItem("profile"));
+   console.log(user);
   const handleLogOut = () => {
     dispatch({ type: "LOGOUT" });
     navigate("/");

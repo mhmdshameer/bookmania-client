@@ -2,12 +2,15 @@ import { Container, Grid2, Grow } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Posts from "../components/posts/posts";
 import * as api from "../api/index.js"
+import { useDispatch } from "react-redux";
 
 const Home = () => {
  const [posts, setPosts] = useState({})
+ const dispatch = useDispatch()
   useEffect(()=>{
     const getPosts= async ()=>{
     const {data} = await api.fetchPosts();
+    dispatch({type: "FETCH",payload:data})
     setPosts(data)
     }
     getPosts()
