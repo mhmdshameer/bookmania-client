@@ -11,6 +11,7 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -24,9 +25,9 @@ const theme = createTheme({
 });
 
 const AdminPage = () => {
-
+  
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
     const getUsers = async () => {
       const { data } = await api.fetchUsers();
@@ -34,6 +35,7 @@ const AdminPage = () => {
     };
     getUsers();
   }, []);
+  const navigate = useNavigate()
 
   const users = useSelector((state) => state.userReducer.users);
 
@@ -43,6 +45,7 @@ const AdminPage = () => {
    console.log(data)
    dispatch({ type: "DELETE_USER", payload: userId });
   };
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -70,10 +73,11 @@ const AdminPage = () => {
           .map((user) => (
             <Card
               key={user._id}
+              onClick={()=>navigate(`/user/${user._id}`)}
               sx={{
-                width: "170px", // Set width to 170px
-                height: "300px", // Set height to 300px
-                margin: "10px", // Add margin for spacing
+                width: "170px", 
+                height: "200px", 
+                margin: "10px", 
                 backgroundColor: "rgba(46, 59, 78, 0.8)",
                 borderRadius: "8px",
                 boxShadow: 3,

@@ -47,28 +47,21 @@ const Book = ({ setCurrentId }) => {
     dispatch({ type: "DELETE_POST", payload: id });
   };
   const handleBook = async () => {
-    console.log("Initial books:", authData?.result.book);
     const userId = user?.result?._id;
     const bookId = id;
-  
+
     if (authData?.result.book.includes(bookId)) {
-      console.log("Start returning book with ID:", bookId);
       await api.returnBook(userId, bookId);
-      console.log("API returned successfully. Dispatching RETURN action.");
       dispatch({ type: "RETURN", payload: { userId, bookId } });
     } else {
       try {
-        console.log("Start taking book with ID:", bookId);
-        const response = await api.takeBook(userId, bookId);
-        console.log("API returned successfully with message:", response.data.message);
-        console.log("Dispatching TAKE action for book ID:", bookId);
+        await api.takeBook(userId, bookId);
         dispatch({ type: "TAKE", payload: { userId, bookId } });
       } catch (error) {
         console.error("Error taking book:", error);
       }
     }
   };
-  
 
   return (
     <Container
@@ -148,18 +141,32 @@ const Book = ({ setCurrentId }) => {
             <Button
               variant="contained"
               onClick={handleBook}
+              disabled={
+                !post.available && !authData?.result.book.includes(id) 
+              }
               sx={{
-                backgroundColor: "#D9A05B",
+                backgroundColor: authData?.result.book.includes(id)
+                  ? "#D9A05B"
+                  : !post.available
+                  ? "#999999"
+                  : "#D9A05B",
                 color: "#2E3B4E",
                 "&:hover": {
-                  backgroundColor: "#B68A44",
+                  backgroundColor: authData?.result.book.includes(id)
+                    ? "#B68A44"
+                    : !post.available
+                    ? "#999999"
+                    : "#B68A44",
                 },
               }}
             >
-              {authData?.result.book?.includes(id)
+              {authData?.result.book.includes(id)
                 ? "Return Book"
+                : !post.available
+                ? "Not Available"
                 : "Take Book"}
             </Button>
+
             {user?.result?.role === "admin" && (
               <Box sx={{ display: "flex", marginTop: "20px" }}>
                 <Button

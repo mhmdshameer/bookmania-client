@@ -35,12 +35,19 @@ const postReducer = (state = { posts: [] }, action) => {
       case "TAKE": {
         const id = action.payload.id;
         const updatedPosts = state.posts.map((post) =>
-          post._id === id ? { ...post, demand: post.demand + 1 } : post
+          post._id === id ? { ...post, demand: post.demand + 1,available: false } : post
         );
         return {
           ...state,
           posts: updatedPosts, // Avoid redundant storage update
         };
+      }
+      case "RETURN": {
+        const id = action.payload.id;
+        const updatedPosts = state.posts.map((post)=> post._id === id? {...post,available:true}: post);
+        return{
+            ...state, posts: updatedPosts,
+        }
       }
       default:
         return state;

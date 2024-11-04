@@ -8,6 +8,7 @@ import { useState } from 'react';
 import Navbar from './components/Navbar';
 import AdminPage from './pages/AdminPage';
 import Book from './pages/Book';
+import User from './pages/user';
 
 function App() {
   const [currentId, setCurrentId] = useState("")
@@ -23,6 +24,7 @@ function App() {
         <Route path='/signup' element={<SignUp/>} />
         <Route path='/form' element={<Form currentId={currentId} setCurrentId={setCurrentId} />} />
         <Route path='/book/:id' element={<Book setCurrentId={setCurrentId} />} />
+        <Route path='/user/:id' element={<User/>} />
       </Routes>
     </BrowserRouter>
    </div>

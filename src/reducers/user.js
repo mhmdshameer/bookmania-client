@@ -2,7 +2,7 @@
 const userReducer = (state = { users: [] }, action) => {
   switch (action.type) {
     case "FETCH_USERS": {
-      localStorage.setItem("users", JSON.stringify(action.payload)); // Save users only during fetch
+     // localStorage.setItem("users", JSON.stringify(action.payload)); 
       return { ...state, users: action.payload };
     }
     case "DELETE_USER": {
