@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import * as api from "../api/index.js";
 import {
   Typography,
@@ -55,6 +55,7 @@ const AdminPage = () => {
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
+          cursor: 'pointer'
         }}
       >
         <Typography

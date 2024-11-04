@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as api from "../api/index.js";
-import { CircularProgress, Container, Box, Typography, Button, Avatar } from "@mui/material";
+import {
+  CircularProgress,
+  Container,
+  Box,
+  Typography,
+  Button,
+  Avatar,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
-const Book = ({setCurrentId}) => {
+const Book = ({ setCurrentId }) => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const user =JSON.parse( localStorage.getItem("profile")); 
-  const authData = useSelector((state)=> state.authReducers.authData)
-console.log("authData:",authData)
-  // Function to fetch the post
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
+  const authData = useSelector((state) => state.authReducers.authData);
+  console.log("authData:", authData);
+
   const getPost = async (id) => {
     try {
       const { data } = await api.fetchPost(id);
-      setPost(data); 
+      setPost(data);
     } catch (error) {
-      console.error("Error fetching post:", error); 
+      console.error("Error fetching post:", error);
     }
   };
 
@@ -27,35 +34,40 @@ console.log("authData:",authData)
       getPost(id);
     }
   }, [id]);
-  const user1 = useSelector((state)=> state.userReducer.user);
-  const post1 = useSelector((state)=> state)
-  console.log("user:",user1,"Post:",post1)
-  const handleEdit = () =>{
+  const user1 = useSelector((state) => state.userReducer.user);
+  const post1 = useSelector((state) => state);
+  console.log("user:", user1, "Post:", post1);
+  const handleEdit = () => {
     setCurrentId(id);
     navigate("/form");
-  }
-  const handleDelete = async () =>{
-      await api.deletePost(id);
-      navigate("/")
-    dispatch({type:"DELETE_POST",payload:id})
-  }
-  const handleTakeBook = async () => {
-    if(authData?.result.book.includes(id)){
-    
-    }else{
-      const userId = user.result._id;
-      const bookId = id;
-      console.log(userId,bookId)
+  };
+  const handleDelete = async () => {
+    await api.deletePost(id);
+    navigate("/");
+    dispatch({ type: "DELETE_POST", payload: id });
+  };
+  const handleBook = async () => {
+    console.log("Initial books:", authData?.result.book);
+    const userId = user?.result?._id;
+    const bookId = id;
+  
+    if (authData?.result.book.includes(bookId)) {
+      console.log("Start returning book with ID:", bookId);
+      await api.returnBook(userId, bookId);
+      console.log("API returned successfully. Dispatching RETURN action.");
+      dispatch({ type: "RETURN", payload: { userId, bookId } });
+    } else {
       try {
-        const response = await api.takeBook(userId,id);
-        console.log(response.data.message,user.result);
-        dispatch({type: "TAKE",payload:{userId,bookId}})
+        console.log("Start taking book with ID:", bookId);
+        const response = await api.takeBook(userId, bookId);
+        console.log("API returned successfully with message:", response.data.message);
+        console.log("Dispatching TAKE action for book ID:", bookId);
+        dispatch({ type: "TAKE", payload: { userId, bookId } });
       } catch (error) {
-        console.log(error);
+        console.error("Error taking book:", error);
       }
-
     }
-  }
+  };
   
 
   return (
@@ -103,24 +115,39 @@ console.log("authData:",authData)
               justifyContent: "space-between",
             }}
           >
-            <Typography variant="h3" sx={{ color: "#D9A05B", fontWeight: "bold" }}>
+            <Typography
+              variant="h3"
+              sx={{ color: "#D9A05B", fontWeight: "bold" }}
+            >
               {post.title}
             </Typography>
-            <Typography variant="h6" sx={{ color: "#E1E5EE", marginBottom: "10px" }}>
+            <Typography
+              variant="h6"
+              sx={{ color: "#E1E5EE", marginBottom: "10px" }}
+            >
               Author: {post.author}
             </Typography>
-            <Typography variant="body2" sx={{ color: "#E1E5EE", marginBottom: "20px" }}>
+            <Typography
+              variant="body2"
+              sx={{ color: "#E1E5EE", marginBottom: "20px" }}
+            >
               Description:{post.desc}
             </Typography>
-            <Typography variant="body1" sx={{ color: "#A8A8A8", marginBottom: "10px" }}>
+            <Typography
+              variant="body1"
+              sx={{ color: "#A8A8A8", marginBottom: "10px" }}
+            >
               Pages: {post.pages}
             </Typography>
-            <Typography variant="h5" sx={{ color: "#D9A05B", marginBottom: "20px" }}>
+            <Typography
+              variant="h5"
+              sx={{ color: "#D9A05B", marginBottom: "20px" }}
+            >
               Price: ${post.price}
             </Typography>
             <Button
               variant="contained"
-              onClick={handleTakeBook}
+              onClick={handleBook}
               sx={{
                 backgroundColor: "#D9A05B",
                 color: "#2E3B4E",
@@ -129,7 +156,9 @@ console.log("authData:",authData)
                 },
               }}
             >
-             {authData?.result.book?.includes(id)?"Return Book": "Take Book"}
+              {authData?.result.book?.includes(id)
+                ? "Return Book"
+                : "Take Book"}
             </Button>
             {user?.result?.role === "admin" && (
               <Box sx={{ display: "flex", marginTop: "20px" }}>

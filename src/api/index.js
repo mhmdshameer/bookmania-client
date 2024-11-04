@@ -12,7 +12,8 @@ export const signIn = (formData) => API.post("/user/signin", formData);
 export const fetchUsers = () => API.get("/user");
 export const deleteUser = (id) => API.delete(`/user/${id}`);
 
-export const takeBook = (userId,bookId) => API.post("/posts/takeBook",{userId,bookId});
+export const takeBook = (userId,bookId) => API.patch("/posts/takeBook",{userId,bookId});
+export const returnBook = (userId,bookId) => API.patch("/posts/returnBook",{userId,bookId});
 export const fetchPosts = () => API.get("/posts");
 export const fetchPost = (id) => API.get(`/posts/${id}`);
 export const createPost =  (newPost) => API.post("/posts", newPost);

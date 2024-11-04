@@ -6,33 +6,30 @@ const postReducer = (state = { posts: [] }, action) => {
           ...state,
           posts: action.payload,
         };
-        localStorage.setItem("posts", JSON.stringify(updatedState.posts)); // Save posts to local storage
+        localStorage.setItem("posts", JSON.stringify(updatedState.posts)); // Save posts only during fetch
         return updatedState;
       }
       case "UPDATE": {
         const updatedPosts = state.posts.map((post) =>
           post._id === action.payload._id ? action.payload : post
         );
-        localStorage.setItem("posts", JSON.stringify(updatedPosts)); // Save updated posts to local storage
         return {
           ...state,
-          posts: updatedPosts,
+          posts: updatedPosts, // Avoid redundant storage update
         };
       }
       case "DELETE_POST": {
         const updatedPosts = state.posts.filter((post) => post._id !== action.payload);
-        localStorage.setItem("posts", JSON.stringify(updatedPosts)); // Save updated posts to local storage
         return {
           ...state,
-          posts: updatedPosts,
+          posts: updatedPosts, // Avoid redundant storage update
         };
       }
       case "CREATE": {
         const updatedPosts = [action.payload, ...state.posts];
-        localStorage.setItem("posts", JSON.stringify(updatedPosts)); // Save created post to local storage
         return {
           ...state,
-          posts: updatedPosts,
+          posts: updatedPosts, // Avoid redundant storage update
         };
       }
       case "TAKE": {
@@ -40,10 +37,9 @@ const postReducer = (state = { posts: [] }, action) => {
         const updatedPosts = state.posts.map((post) =>
           post._id === id ? { ...post, demand: post.demand + 1 } : post
         );
-        localStorage.setItem("posts", JSON.stringify(updatedPosts)); // Save updated posts to local storage
         return {
           ...state,
-          posts: updatedPosts,
+          posts: updatedPosts, // Avoid redundant storage update
         };
       }
       default:
