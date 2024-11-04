@@ -10,7 +10,8 @@ const Book = ({setCurrentId}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const user =JSON.parse( localStorage.getItem("profile")); 
-
+  const authData = useSelector((state)=> state.authReducers.authData)
+console.log("authData:",authData)
   // Function to fetch the post
   const getPost = async (id) => {
     try {
@@ -26,6 +27,9 @@ const Book = ({setCurrentId}) => {
       getPost(id);
     }
   }, [id]);
+  const user1 = useSelector((state)=> state.userReducer.user);
+  const post1 = useSelector((state)=> state)
+  console.log("user:",user1,"Post:",post1)
   const handleEdit = () =>{
     setCurrentId(id);
     navigate("/form");
@@ -36,13 +40,20 @@ const Book = ({setCurrentId}) => {
     dispatch({type:"DELETE_POST",payload:id})
   }
   const handleTakeBook = async () => {
-    const userId = user.result._id;
-    try {
-      const response = await api.takeBook(userId,id);
-      console.log(response.data.message,user.result);
-      
-    } catch (error) {
-      console.log(error);
+    if(authData?.result.book.includes(id)){
+    
+    }else{
+      const userId = user.result._id;
+      const bookId = id;
+      console.log(userId,bookId)
+      try {
+        const response = await api.takeBook(userId,id);
+        console.log(response.data.message,user.result);
+        dispatch({type: "TAKE",payload:{userId,bookId}})
+      } catch (error) {
+        console.log(error);
+      }
+
     }
   }
   
@@ -118,7 +129,7 @@ const Book = ({setCurrentId}) => {
                 },
               }}
             >
-             {user?.result.book?.includes(id)?"Return Book": "Take Book"}
+             {authData?.result.book?.includes(id)?"Return Book": "Take Book"}
             </Button>
             {user?.result?.role === "admin" && (
               <Box sx={{ display: "flex", marginTop: "20px" }}>
