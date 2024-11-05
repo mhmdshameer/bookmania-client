@@ -14,8 +14,8 @@ const Post = ({ post }) => {
       raised
       elevation={8}
       sx={{
-        width: "170px",
-        height: "300px",
+        width: "140px",
+        height: "270px",
         borderRadius: "10px",
         backgroundColor:"rgba(46, 59, 78, 0.8)",
         cursor: "pointer",
@@ -37,10 +37,10 @@ const Post = ({ post }) => {
         image={post.selectedFile || "https://via.placeholder.com/150"}
         alt={post.title}
         sx={{
-          height: "95%", // Adjusted to occupy a comfortable portion of the card
-          width: "95%", // Provide space around the image within the card
-          objectFit: "contain", // Ensure image fits without stretching
-          borderRadius: "8px", // Slight rounding for a softer look
+          height: "95%",
+          width: "95%", 
+          objectFit: "contain",
+          borderRadius: "8px", 
         }}
       />
       <Box
@@ -61,7 +61,7 @@ const Post = ({ post }) => {
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            maxWidth: "100%", // Ensures the title fits within the card width
+            maxWidth: "100%", 
           }}
         >
           {post.title.length > 20

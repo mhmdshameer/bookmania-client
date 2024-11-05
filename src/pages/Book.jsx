@@ -8,6 +8,7 @@ import {
   Typography,
   Button,
   Avatar,
+  Card,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -67,14 +68,13 @@ const Book = ({ setCurrentId }) => {
     <Container
       sx={{
         width: "80%",
-        height: "auto",
         margin: "50px auto",
         display: "flex",
-        backgroundColor: "rgba(255, 255, 255, 0.1)", // Low opacity for the container
+        backgroundColor: "rgba(255, 255, 255, 0.1)",
         borderRadius: "8px",
         boxShadow: 3,
         padding: "20px",
-        backdropFilter: "blur(10px)", // Optional: adds a blur effect to the background
+        backdropFilter: "blur(10px)",
       }}
     >
       {post ? (
@@ -83,6 +83,7 @@ const Book = ({ setCurrentId }) => {
             sx={{
               flex: 1,
               display: "flex",
+              height: "auto",
               justifyContent: "center",
               alignItems: "center",
               marginRight: "20px",
@@ -90,7 +91,7 @@ const Book = ({ setCurrentId }) => {
           >
             <Avatar
               alt={post.title}
-              src={post.selectedFile} // Assuming the post contains an image URL
+              src={post.selectedFile}
               sx={{
                 width: "200px",
                 height: "300px",

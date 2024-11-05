@@ -16,6 +16,7 @@ export const takeBook = (userId,bookId) => API.patch("/posts/takeBook",{userId,b
 export const returnBook = (userId,bookId) => API.patch("/posts/returnBook",{userId,bookId});
 export const fetchPosts = () => API.get("/posts");
 export const fetchPost = (id) => API.get(`/posts/${id}`);
+export const fetchSearchPosts = (searchedPosts) => API.get(`/posts/searchPosts`,searchedPosts);
 export const createPost =  (newPost) => API.post("/posts", newPost);
 export const deletePost =  (id) => API.delete(`/posts/${id}`);
 export const updatePost =  (id, updatedPost) =>

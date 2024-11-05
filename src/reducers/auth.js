@@ -1,7 +1,7 @@
 const authReducers = (state = { authData: null }, action) => {
   switch (action.type) {
     case "AUTH":
-      localStorage.setItem("profile", JSON.stringify(action.payload)); // Only update when user authenticates
+      localStorage.setItem("profile", JSON.stringify(action.payload));
       return { ...state, authData: action.payload };
       
     case "LOGOUT":
@@ -19,7 +19,6 @@ const authReducers = (state = { authData: null }, action) => {
 
         const updatedAuthData = { ...state.authData, result: updatedUser };
         
-        // Skip `localStorage` update here
         return { ...state, authData: updatedAuthData };
       }
 

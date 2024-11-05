@@ -42,9 +42,9 @@ const SearchButton = styled.button`
   }
 `;
 
-const SearchBar = () => (
+const SearchBar = ({handleChange}) => (
   <SearchBarContainer>
-    <SearchInput type="text" placeholder="Search book" />
+    <SearchInput type="text" placeholder="Search book" onChange={(e)=>handleChange(e)} />
     <SearchButton>
       <SearchIcon size={18} />
     </SearchButton>

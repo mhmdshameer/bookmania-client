@@ -1,8 +1,9 @@
-import { Container, Grid2, Grow } from "@mui/material";
+import { Container, Grid2, Grow, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Posts from "../components/posts/posts";
 import * as api from "../api/index.js"
 import { useDispatch } from "react-redux";
+import Recommended from "../components/Recommended.jsx";
 
 const Home = () => {
  const [posts, setPosts] = useState({})
@@ -29,7 +30,12 @@ const Home = () => {
           spacing={3}
           sx={{ flexDirection: { xs: "column-reverse", sm: "row" } }}
         >
-            <Grid2 item xs={12} sm={9} md={6}>
+            <Grid2 item xs={12} sm={9} md={6} >
+            <Typography variant="h5" align="center" sx={{mb: 2, mt: 2, color: "#ffff"}}>Recommended</Typography>
+               <Recommended posts={posts}/> 
+            </Grid2>
+            <Grid2 item xs={12} sm={9} md={6} >
+            <Typography variant="h5" align="center" sx={{mb: 2, mt: 2, color: "#ffff"}}>All Books</Typography>
                <Posts posts={posts}/> 
             </Grid2>
         </Grid2>

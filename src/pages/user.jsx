@@ -2,7 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import * as api from '../api/index.js';
-import { Container, Grid, Card, CardContent, Typography, Avatar, List, ListItem, ListItemAvatar, ListItemText, Divider, Box } from '@mui/material';
+import {
+  Container,
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Avatar,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Divider,
+  Box,
+  Paper,
+  IconButton,
+} from '@mui/material';
+import BookIcon from '@mui/icons-material/Book';
+import EmailIcon from '@mui/icons-material/Email';
 
 const User = () => {
   const { id } = useParams();
@@ -34,69 +51,93 @@ const User = () => {
   return (
     <Box
       sx={{
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        p: 4,
-        borderRadius: 2,
-        boxShadow: 3,
+        py: 5,
+        minHeight: '90vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+
       }}
     >
       <Container maxWidth="md">
-        <Grid container spacing={4}>
-          {/* Left Side: User Profile */}
-          <Grid item xs={12} md={4}>
-            <Card variant="outlined" sx={{ p: 2, textAlign: 'center' }}>
+        <Paper
+          elevation={4}
+          sx={{
+            borderRadius: 3,
+            overflow: 'hidden',
+            boxShadow: 4,
+            backgroundColor: 'white',
+          }}
+        >
+          <Grid container>
+            <Grid item xs={12} md={4} sx={{ backgroundColor: '#E2E8D9', color: 'white', padding: 3, textAlign: 'center' }}>
               <Avatar
-                src={user.profileImage || '/defaultProfile.png'} // Replace with your default image path
+                src={user.profile || '/defaultProfile.png'}
                 alt={user.username}
-                sx={{ width: 100, height: 100, mx: 'auto', mb: 2 }}
+                sx={{
+                  width: 120,
+                  height: 120,
+                  mx: 'auto',
+                  mb: 2,
+                  border: '3px solid white',
+                }}
               />
-              <CardContent>
-                <Typography variant="h5" gutterBottom>
-                  {user.username}
-                </Typography>
-                <Typography color="textSecondary">
+              <Typography variant="h5" gutterBottom sx={{color:"#A65E3D"}}>
+                {user.username}
+              </Typography>
+              <Box display="flex" alignItems="center" justifyContent="center" mb={1}>
+                <EmailIcon sx={{ mr: 1, fontSize: '1.3rem', color: '#6B5B53' }} />
+                <Typography variant="body2" color="#6B5B53">
                   {user.email}
                 </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+              </Box>
+            </Grid>
 
-          {/* Right Side: User Books */}
-          <Grid item xs={12} md={8}>
-            <Card variant="outlined" sx={{ p: 2 }}>
-              <CardContent>
-                <Typography variant="h6" color="secondary" gutterBottom>
-                  Books Taken
-                </Typography>
-                {books.length ? (
-                  <List>
-                    {books.map((book) => (
-                      <React.Fragment key={book._id}>
-                        <ListItem alignItems="flex-start">
-                          <ListItemAvatar>
-                            <Avatar
-                              src={book.selectedFile} // Book image
-                              alt={book.name}
-                              variant="rounded"
-                              sx={{ width: 60, height: 60 }}
+            <Grid item xs={12} md={8} sx={{backgroundColor:"#3A4750"}} >
+                  <Typography variant="h6" color="#E2E8D9" gutterBottom sx={{margin:"20px"}}>
+                    Books Taken
+                  </Typography>
+                  {books.length ? (
+                    <List sx={{ maxHeight: '400px', overflowY: 'auto', paddingTop: 1 }}>
+                      {books.map((book) => (
+                        <React.Fragment key={book._id}>
+                          <ListItem alignItems="flex-start">
+                            <ListItemAvatar>
+                              <Avatar
+                                src={book.selectedFile || '/defaultBookCover.png'}
+                                alt={book.title}
+                                variant="rounded"
+                                sx={{ width: 50, height: 50,  }}
+                              />
+                            </ListItemAvatar>
+                            <ListItemText
+                              primary={
+                                <Typography variant="subtitle1" color="#D1A054">
+                                  {book.title}
+                                </Typography>
+                              }
+                              secondary={
+                                <>
+                                  <Typography variant="body2" color="#B0B8B4">
+                                    <strong>Author:</strong> {book.author}
+                                  </Typography>
+                                </>
+                              }
                             />
-                          </ListItemAvatar>
-                          <ListItemText
-                            primary={book.name}
-                            secondary={`Author: ${book.author}`}
-                          />
-                        </ListItem>
-                        <Divider component="li" />
-                      </React.Fragment>
-                    ))}
-                  </List>
-                ) : (
-                  <Typography color="textSecondary">No books taken</Typography>
-                )}
-              </CardContent>
-            </Card>
+                          </ListItem>
+                          <Divider variant="inset" component="li" sx={{ marginY: 1 }} />
+                        </React.Fragment>
+                      ))}
+                    </List>
+                  ) : (
+                    <Box textAlign="center" mt={3} color="text.secondary">
+                      <BookIcon sx={{ fontSize: 40, mb: 1, color: '#BDBDBD' }} />
+                      <Typography color="textSecondary">No books taken</Typography>
+                    </Box>
+                  )}
+            </Grid>
           </Grid>
-        </Grid>
+        </Paper>
       </Container>
     </Box>
   );

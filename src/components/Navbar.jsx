@@ -11,21 +11,25 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "./Searchbar";
 import { useDispatch } from "react-redux";
 
-const Navbar = () => {
+const Navbar = ({setSearchWord}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const user =JSON.parse( localStorage.getItem("profile"));
-   console.log(user);
+   
   const handleLogOut = () => {
     dispatch({ type: "LOGOUT" });
     navigate("/");
   };
 
+  const handleChange = (e) => {
+    setSearchWord(e.target.value)
+  }
+
   const userRole = user?.result?.role;
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#2E3B4E" }}>
+    <AppBar position="static" sx={{ backgroundColor: "#001" }}>
       <Toolbar>
         <Link to="/" style={{ textDecoration: "none" }}>
           <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
@@ -46,11 +50,11 @@ const Navbar = () => {
           </Box>
         </Link>
 
-        <SearchBar />
+        <SearchBar handleChange={handleChange} />
 
         {user ? (
           <>
-            <IconButton sx={{ marginLeft: 2 }}>
+            <IconButton sx={{ marginLeft: 2 }} onClick={()=> navigate(`/user/${user.result._id}`)}>
               <img
                 src={user?.result?.profile || "images/defaultAvatar.png"}
                 alt="Profile"

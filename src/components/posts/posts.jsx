@@ -8,10 +8,10 @@ const Posts = ({posts}) => {
   ): (
     <Grid2
     container
-    spacing={4} // Space between cards
+    spacing={4}
     sx={{
-      justifyContent: 'center', // Centering the grid items
-      width: "100%", // Full width
+      justifyContent: 'center',
+      width: "100%", 
       marginTop: "30px"
     }}
   >
