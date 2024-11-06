@@ -5,8 +5,10 @@ import * as api from "../api/index.js"
 import { useDispatch } from "react-redux";
 import Recommended from "../components/Recommended.jsx";
 
-const Home = () => {
- const [posts, setPosts] = useState({})
+const Home = ({searchWord}) => {
+ const [posts, setPosts] = useState([])
+ const [searchPosts, setSearchPosts] = useState({})
+ const searchedWord = searchWord
  const dispatch = useDispatch()
   useEffect(()=>{
     const getPosts= async ()=>{
@@ -16,6 +18,15 @@ const Home = () => {
     }
     getPosts()
    },[])
+   
+   useEffect(()=>{
+     const getSearchPost = async () => {
+       const {data} = await api.fetchSearchPosts(searchedWord);
+       setSearchPosts(data)
+      }
+      getSearchPost()
+    },[searchedWord])
+
   return (
     <Grow in>
       <Container
@@ -25,11 +36,19 @@ const Home = () => {
       >
         <Grid2
           container
-          justifyContent="space-between"
+          justifyContent="center"
           alignItems="stretch"
           spacing={3}
           sx={{ flexDirection: { xs: "column-reverse", sm: "row" } }}
         >
+       {searchWord && searchPosts.length > 0 &&(
+
+            <Grid2 item xs={12} sm={9} md={6} >
+            <Typography variant="h5" align="center" sx={{mb: 2, mt: 2, color: "#ffff"}}>{searchPosts.length>1?"Searched Posts":"Search Post"}</Typography>
+               <Recommended posts={searchPosts}/> 
+            </Grid2>
+        )}
+            
             <Grid2 item xs={12} sm={9} md={6} >
             <Typography variant="h5" align="center" sx={{mb: 2, mt: 2, color: "#ffff"}}>Recommended</Typography>
                <Recommended posts={posts}/> 

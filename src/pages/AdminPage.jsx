@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as api from "../api/index.js";
 import {
   Typography,
@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 const theme = createTheme({
   palette: {
     background: {
-      default: "linear-gradient(135deg, #0D1B2A, #1B263B, #415A77)",
+      default: "linear-gradient(135deg, #001, rgb(2, 2, 26), #081628)",
     },
   },
   typography: {
@@ -26,19 +26,29 @@ const theme = createTheme({
   },
 });
 
-const AdminPage = () => {
+const AdminPage = ({searchWord}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchedUsers,setSearchedUsers] = useState([])
+  const [users,setUsers] = useState()
+  const searchedWord = searchWord
 
   useEffect(() => {
     const getUsers = async () => {
+      if(searchWord){
+      const {data} = await api.fetchSearchUsers(searchedWord);
+      setUsers(data)
+      }else{
       const { data } = await api.fetchUsers();
-      dispatch({ type: "FETCH_USERS", payload: data });
+      dispatch({type: "FETCH_USERS",payload:data});
+      setUsers(data)
+    }
     };
     getUsers();
-  }, [dispatch]);
+  }, [searchWord,dispatch]);
 
-  const users = useSelector((state) => state.userReducer.users);
+
+
 
   const handleDelete = async (userId) => {
     await api.deleteUser(userId);
@@ -63,7 +73,6 @@ const AdminPage = () => {
           sx={{
             width: "100%",
             maxWidth: "1200px",
-            backgroundColor: "rgba(31, 39, 50, 0.95)",
             borderRadius: 2,
             padding: 3,
             boxShadow: 5,
@@ -82,17 +91,16 @@ const AdminPage = () => {
             User List
           </Typography>
           <Grid container spacing={3}>
-            {users
-              .filter((user) => user.role !== "admin")
-              .map((user) => (
+            {users?.filter((user) => user.role !== "admin").map((user) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={user._id}>
                   <Card
                     onClick={() => navigate(`/user/${user._id}`)}
                     sx={{
-                      backgroundColor: "rgba(46, 59, 78, 0.9)",
+                      backgroundColor: "#0005",
                       borderRadius: "8px",
                       display: "flex",
                       flexDirection: "column",
+                      borderRadius: "10px",
                       alignItems: "center",
                       padding: 2,
                       cursor: "pointer",

@@ -1,5 +1,5 @@
 // Import the required libraries
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -42,13 +42,24 @@ const SearchButton = styled.button`
   }
 `;
 
-const SearchBar = ({handleChange}) => (
+const SearchBar = ({onSearch}) => {
+  const [searchWord, setSearchWord] = useState("");
+ const handleChange = (e) => {
+      setSearchWord(e.target.value)
+ }
+ const handleClick = (e) => {
+   onSearch(searchWord)
+ }
+
+  
+  return (
+
   <SearchBarContainer>
-    <SearchInput type="text" placeholder="Search book" onChange={(e)=>handleChange(e)} />
-    <SearchButton>
+    <SearchInput type="text" placeholder="Search book" onChange={handleChange} />
+    <SearchButton onClick={handleClick}>
       <SearchIcon size={18} />
     </SearchButton>
   </SearchBarContainer>
 );
-
+} 
 export default SearchBar;

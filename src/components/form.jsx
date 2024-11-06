@@ -21,7 +21,6 @@ const Form = ({ currentId, setCurrentId }) => {
   
   const navigate = useNavigate();
   const post = useSelector((state) => {
-    console.log(state);
     return currentId ? state.postReducer.posts.find((p) => p._id === currentId) : null;
   });
   

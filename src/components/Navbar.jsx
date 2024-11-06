@@ -22,9 +22,7 @@ const Navbar = ({setSearchWord}) => {
     navigate("/");
   };
 
-  const handleChange = (e) => {
-    setSearchWord(e.target.value)
-  }
+  
 
   const userRole = user?.result?.role;
 
@@ -50,7 +48,7 @@ const Navbar = ({setSearchWord}) => {
           </Box>
         </Link>
 
-        <SearchBar handleChange={handleChange} />
+        <SearchBar onSearch={(searchWord)=> setSearchWord(searchWord)} />
 
         {user ? (
           <>

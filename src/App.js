@@ -20,7 +20,7 @@ function App() {
       <Navbar setSearchWord={setSearchWord}/>
       <Routes>
        <Route path='/' element={<Home searchWord={searchWord}/>}/>
-        <Route path='/adminpage' element={<AdminPage/>} />
+        <Route path='/adminpage' element={<AdminPage searchWord={searchWord} />} />
         <Route path='/signin' element={<SignIn/>} />
         <Route path='/signup' element={<SignUp/>} />
         <Route path='/form' element={<Form currentId={currentId} setCurrentId={setCurrentId} />} />
