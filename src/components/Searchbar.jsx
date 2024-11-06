@@ -14,6 +14,16 @@ const SearchBarContainer = styled.div`
   border-radius: 30px;
   background-color: #f3f4f6;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  
+  @media (max-width: 768px) {
+    max-width: 300px;
+    padding: 0.4rem;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 90%;
+    padding: 0.3rem;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -25,6 +35,14 @@ const SearchInput = styled.input`
   font-size: 1rem;
   color: #333;
   background-color: transparent;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const SearchButton = styled.button`
@@ -40,26 +58,39 @@ const SearchButton = styled.button`
   &:hover {
     color: #4a90e2;
   }
+
+  @media (max-width: 768px) {
+    padding: 0 0.4rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 0.3rem;
+  }
 `;
 
-const SearchBar = ({onSearch}) => {
+const SearchBar = ({ onSearch }) => {
   const [searchWord, setSearchWord] = useState("");
- const handleChange = (e) => {
-      setSearchWord(e.target.value)
- }
- const handleClick = (e) => {
-   onSearch(searchWord)
- }
 
-  
+  const handleChange = (e) => {
+    setSearchWord(e.target.value);
+  };
+
+  const handleClick = () => {
+    onSearch(searchWord);
+  };
+
   return (
+    <SearchBarContainer>
+      <SearchInput 
+        type="text" 
+        placeholder="Search book" 
+        onChange={handleChange} 
+      />
+      <SearchButton onClick={handleClick}>
+        <SearchIcon size={18} />
+      </SearchButton>
+    </SearchBarContainer>
+  );
+};
 
-  <SearchBarContainer>
-    <SearchInput type="text" placeholder="Search book" onChange={handleChange} />
-    <SearchButton onClick={handleClick}>
-      <SearchIcon size={18} />
-    </SearchButton>
-  </SearchBarContainer>
-);
-} 
 export default SearchBar;

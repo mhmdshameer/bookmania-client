@@ -8,7 +8,6 @@ import {
   Typography,
   Button,
   Avatar,
-  Card,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -19,7 +18,6 @@ const Book = ({ setCurrentId }) => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
   const authData = useSelector((state) => state.authReducers.authData);
-  console.log("authData:", authData);
 
   const getPost = async (id) => {
     try {
@@ -35,18 +33,18 @@ const Book = ({ setCurrentId }) => {
       getPost(id);
     }
   }, [id]);
-  const user1 = useSelector((state) => state.userReducer.user);
-  const post1 = useSelector((state) => state);
-  console.log("user:", user1, "Post:", post1);
+
   const handleEdit = () => {
     setCurrentId(id);
     navigate("/form");
   };
+
   const handleDelete = async () => {
     await api.deletePost(id);
-    navigate("/");
     dispatch({ type: "DELETE_POST", payload: id });
+    navigate("/signup");
   };
+
   const handleBook = async () => {
     const userId = user?.result?._id;
     const bookId = id;
@@ -66,35 +64,40 @@ const Book = ({ setCurrentId }) => {
 
   return (
     <Container
-      sx={{
-        width: "80%",
-        margin: "50px auto",
-        display: "flex",
-        backgroundColor: "rgba(255, 255, 255, 0.1)",
-        borderRadius: "8px",
-        boxShadow: 3,
-        padding: "20px",
-        backdropFilter: "blur(10px)",
-      }}
+  sx={{
+    width: { xs: "100%", sm: "80%" },
+    height: { xs: "100vh", sm: "auto" },
+    margin: "50px auto",
+    display: "flex",
+    flexDirection: { xs: "column", sm: "row" }, 
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    borderRadius: "8px",
+    boxShadow: 3,
+    padding: "20px",
+    backdropFilter: "blur(10px)",
+    alignItems: "center", 
+    justifyContent: "center",  
+  }}
     >
       {post ? (
         <>
           <Box
-            sx={{
-              flex: 1,
-              display: "flex",
-              height: "auto",
-              justifyContent: "center",
-              alignItems: "center",
-              marginRight: "20px",
-            }}
+        sx={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: { xs: "20px", sm: "0" },
+          marginLeft: {sm: "20px"},
+          width: { xs: "100%", sm: "auto" },  
+        }}
           >
             <Avatar
               alt={post.title}
               src={post.selectedFile}
               sx={{
-                width: "200px",
-                height: "300px",
+                width: { xs: "150px", sm: "200px" },
+                height: { xs: "225px", sm: "300px" },
                 objectFit: "cover",
                 borderRadius: "5px",
                 boxShadow: 2,
@@ -106,45 +109,62 @@ const Book = ({ setCurrentId }) => {
               flex: 2,
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between",
+              alignItems: { xs: "center", sm: "flex-start" }, 
+              textAlign: { xs: "center", sm: "left" },
+              width: { xs: "100%", sm: "auto" }, 
             }}
           >
             <Typography
-              variant="h3"
-              sx={{ color: "#D9A05B", fontWeight: "bold" }}
+              variant="h4"
+              sx={{
+                color: "#D9A05B",
+                fontWeight: "bold",
+                fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+              }}
             >
               {post.title}
             </Typography>
             <Typography
               variant="h6"
-              sx={{ color: "#E1E5EE", marginBottom: "10px" }}
+              sx={{
+                color: "#E1E5EE",
+                marginBottom: "10px",
+              }}
             >
               Author: {post.author}
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: "#E1E5EE", marginBottom: "20px" }}
+              sx={{
+                color: "#E1E5EE",
+                marginBottom: "20px",
+                fontSize: { xs: "0.9rem", sm: "1rem" },
+              }}
             >
-              Description:{post.desc}
+              Description: {post.desc}
             </Typography>
             <Typography
               variant="body1"
-              sx={{ color: "#A8A8A8", marginBottom: "10px" }}
+              sx={{
+                color: "#A8A8A8",
+                marginBottom: "10px",
+              }}
             >
               Pages: {post.pages}
             </Typography>
             <Typography
               variant="h5"
-              sx={{ color: "#D9A05B", marginBottom: "20px" }}
+              sx={{
+                color: "#D9A05B",
+                marginBottom: "20px",
+              }}
             >
               Price: ${post.price}
             </Typography>
             <Button
               variant="contained"
               onClick={handleBook}
-              disabled={
-                !post.available && !authData?.result.book.includes(id) 
-              }
+              disabled={!post.available && !authData?.result.book.includes(id)}
               sx={{
                 backgroundColor: authData?.result.book.includes(id)
                   ? "#D9A05B"
@@ -152,6 +172,7 @@ const Book = ({ setCurrentId }) => {
                   ? "#999999"
                   : "#D9A05B",
                 color: "#2E3B4E",
+                width: { xs: "100%", sm: "auto" },
                 "&:hover": {
                   backgroundColor: authData?.result.book.includes(id)
                     ? "#B68A44"
@@ -167,14 +188,21 @@ const Book = ({ setCurrentId }) => {
                 ? "Not Available"
                 : "Take Book"}
             </Button>
-
             {user?.result?.role === "admin" && (
-              <Box sx={{ display: "flex", marginTop: "20px" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
+                  marginTop: "20px",
+                  alignItems: { xs: "center", sm: "flex-start" },
+                }}
+              >
                 <Button
                   variant="outlined"
                   onClick={handleEdit}
                   sx={{
-                    marginRight: "10px",
+                    marginBottom: { xs: "10px", sm: "0" },
+                    marginRight: { sm: "10px" },
                     borderColor: "#D9A05B",
                     color: "#D9A05B",
                     "&:hover": {

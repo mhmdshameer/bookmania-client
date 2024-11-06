@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as api from "../api/index.js";
 import {
   Typography,
@@ -8,11 +8,11 @@ import {
   CardContent,
   CardActions,
   Box,
-  Grid
+  Grid,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
@@ -26,33 +26,31 @@ const theme = createTheme({
   },
 });
 
-const AdminPage = ({searchWord}) => {
+const AdminPage = ({ searchWord }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [searchedUsers,setSearchedUsers] = useState([])
-  const [users,setUsers] = useState()
-  const searchedWord = searchWord
+  const [users, setUsers] = useState();
+  const [del, setDel] = useState(false);
 
   useEffect(() => {
     const getUsers = async () => {
-      if(searchWord){
-      const {data} = await api.fetchSearchUsers(searchedWord);
-      setUsers(data)
-      }else{
-      const { data } = await api.fetchUsers();
-      dispatch({type: "FETCH_USERS",payload:data});
-      setUsers(data)
-    }
+      if (searchWord) {
+        const { data } = await api.fetchSearchUsers(searchWord);
+        setUsers(data);
+      } else {
+        const { data } = await api.fetchUsers();
+        dispatch({ type: "FETCH_USERS", payload: data });
+        setUsers(data);
+      }
     };
     getUsers();
-  }, [searchWord,dispatch]);
-
-
-
+  }, [searchWord, del]);
 
   const handleDelete = async (userId) => {
     await api.deleteUser(userId);
     dispatch({ type: "DELETE_USER", payload: userId });
+    const { data } = await api.fetchSearchUsers(searchWord);
+    setUsers(data);
   };
 
   return (
@@ -65,17 +63,17 @@ const AdminPage = ({searchWord}) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: 4,
+          padding: { xs: 2, sm: 4 },
           boxSizing: "border-box",
         }}
       >
         <Box
           sx={{
             width: "100%",
-            maxWidth: "1200px",
+            maxWidth: { xs: "100%", md: "1200px" },
             borderRadius: 2,
-            padding: 3,
-            boxShadow: 5,
+            padding: { xs: 2, sm: 3 },
+            boxShadow: { xs: 2, md: 5 },
           }}
         >
           <Typography
@@ -90,8 +88,10 @@ const AdminPage = ({searchWord}) => {
           >
             User List
           </Typography>
-          <Grid container spacing={3}>
-            {users?.filter((user) => user.role !== "admin").map((user) => (
+          <Grid container spacing={2}>
+            {users
+              ?.filter((user) => user.role !== "admin")
+              .map((user) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={user._id}>
                   <Card
                     onClick={() => navigate(`/user/${user._id}`)}
@@ -100,7 +100,6 @@ const AdminPage = ({searchWord}) => {
                       borderRadius: "8px",
                       display: "flex",
                       flexDirection: "column",
-                      borderRadius: "10px",
                       alignItems: "center",
                       padding: 2,
                       cursor: "pointer",
@@ -115,9 +114,9 @@ const AdminPage = ({searchWord}) => {
                       alt={user.username}
                       src={user.profile}
                       sx={{
-                        width: 72,
-                        height: 72,
-                        marginBottom: "10px",
+                        width: 64,
+                        height: 64,
+                        marginBottom: 1,
                         border: "2px solid #A7BDAF",
                       }}
                     />
@@ -143,7 +142,9 @@ const AdminPage = ({searchWord}) => {
                         {user.email}
                       </Typography>
                     </CardContent>
-                    <CardActions sx={{ width: "100%", justifyContent: "center" }}>
+                    <CardActions
+                      sx={{ width: "100%", justifyContent: "center" }}
+                    >
                       <Button
                         variant="contained"
                         color="error"

@@ -22,10 +22,10 @@ function App() {
        <Route path='/' element={<Home searchWord={searchWord}/>}/>
         <Route path='/adminpage' element={<AdminPage searchWord={searchWord} />} />
         <Route path='/signin' element={<SignIn/>} />
-        <Route path='/signup' element={<SignUp/>} />
+        <Route path='/signup' element={<SignUp />} />
         <Route path='/form' element={<Form currentId={currentId} setCurrentId={setCurrentId} />} />
         <Route path='/book/:id' element={<Book setCurrentId={setCurrentId} />} />
-        <Route path='/user/:id' element={<User/>} />
+        <Route path='/user/:id' element={<User setCurrentId={setCurrentId} />} />
       </Routes>
     </BrowserRouter>
    </div>

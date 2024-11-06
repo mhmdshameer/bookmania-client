@@ -9,7 +9,16 @@ const userReducer = (state = { users: [] }, action) => {
       const updatedUsers = state.users.filter(
         (user) => user._id !== action.payload
       );
-      localStorage.setItem("users", JSON.stringify(updatedUsers)); // Save updated users only here if needed
+      
+      return {
+        ...state,
+        users: updatedUsers,
+      };
+    }
+    case "UPDATE_USER": {
+      const updatedUsers = state.users.map(
+        (user) => user._id === action.payload._id? action.payload: user 
+      );
       return {
         ...state,
         users: updatedUsers,
@@ -23,7 +32,6 @@ const userReducer = (state = { users: [] }, action) => {
         user._id === userId ? { ...user, book: [...user.book, id] } : user
       );
 
-      // Avoid localStorage update here to reduce quota issues
       return {
         ...state,
         users: updatedUsers,

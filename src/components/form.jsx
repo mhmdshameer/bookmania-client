@@ -72,11 +72,10 @@ const Form = ({ currentId, setCurrentId }) => {
           },
         }}
       >
-        {/* Image Uploader on the left */}
+        
         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: { xs: 0, md: '20px' }, marginBottom: { xs: '20px', md: 0 } }}>
           <ImageUploader setPostData={setPostData} postData={postData} />
         </Box>
-        {/* Form Fields on the right */}
         <Box sx={{ flex: 2 }}>
           <form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <Typography variant="h6" align="center" sx={{ marginBottom: 2 }}>

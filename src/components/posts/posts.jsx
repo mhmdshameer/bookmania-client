@@ -16,7 +16,7 @@ const Posts = ({posts}) => {
     }}
   >
     {posts.map((post) => (
-      <Grid2 key={post._id} item xs={12} sm={6} md={4} lg={3}> 
+      <Grid2 key={post._id} item xs={6} sm={4} md={4} lg={3}> 
         <Post post={post}/>
       </Grid2>
     ))}

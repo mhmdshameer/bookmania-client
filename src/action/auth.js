@@ -28,3 +28,12 @@ export const signin =
       throw new Error(message);
     }
   };
+
+  export const updateUser =  ({formData, id}, navigate) => async (dispatch) => {
+    try {
+      const {data} = await api.updateUser(id,formData)
+      dispatch({type: "UPDATE_USER", payload: data})
+    } catch (error) {
+      console.log(error)
+    }
+  }

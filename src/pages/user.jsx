@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import * as api from "../api/index.js";
 import {
   Container,
@@ -19,12 +18,16 @@ import {
 } from "@mui/material";
 import BookIcon from "@mui/icons-material/Book";
 import EmailIcon from "@mui/icons-material/Email";
+import EditUserModal from "../components/EditUserModal.jsx";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../action/auth.js";
 
-const User = () => {
+const User = ({ setCurrentId }) => {
   const { id } = useParams();
   const [books, setBooks] = useState([]); // Stores details of each book
   const [user, setUser] = useState({});
-  const navigate = useNavigate()
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const dispatch = useDispatch()
 
   const currentUser = JSON.parse(localStorage.getItem("profile")).result;
 
@@ -41,6 +44,17 @@ const User = () => {
       fetchBooks();
     }
   }, [user]);
+
+  const handleEdit = () => {
+    setCurrentId(id);
+    setEditModalOpen(true);
+  };
+
+  const handleSave = (updatedUserData) => {
+    dispatch(updateUser({formData:updatedUserData,id}))
+    setUser(updatedUserData)
+    setEditModalOpen(false);
+  };
 
   const fetchBooks = async () => {
     try {
@@ -139,12 +153,13 @@ const User = () => {
                   color="#E2E8D9"
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate("/signup");
+                    handleEdit();
                   }}
                   sx={{
                     width: "50%",
                     fontWeight: "bold",
                     backgroundColor: "#5A8D68",
+
                     mt: "30px",
                     "&:hover": {
                       backgroundColor: "#4B7858",
@@ -155,6 +170,12 @@ const User = () => {
                 </Button>
               )}
             </Grid>
+            <EditUserModal
+              open={isEditModalOpen}
+              onClose={() => setEditModalOpen(false)}
+              user={user}
+              onSave={handleSave}
+            />
 
             <Grid item xs={12} md={8} sx={{ backgroundColor: "#3A4750" }}>
               <Typography
