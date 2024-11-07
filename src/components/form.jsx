@@ -18,21 +18,22 @@ const Form = ({ currentId, setCurrentId }) => {
     pages: "",
     selectedFile: "",
   });
-  
+
   const navigate = useNavigate();
   const post = useSelector((state) => {
-    return currentId ? state.postReducer.posts.find((p) => p._id === currentId) : null;
+    return currentId
+      ? state.postReducer.posts.find((p) => p._id === currentId)
+      : null;
   });
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);
-  console.log(postData)
+  console.log(postData);
 
   const clear = () => {
-    setCurrentId(null);
     setPostData({
       title: "",
       author: "",
@@ -46,13 +47,18 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(currentId){
-      dispatch(updatePost(currentId,postData))
-    }else{
-      dispatch(createPost({ ...postData, }));
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost({ ...postData }));
+    }
+    if (currentId) {
+      navigate(`/book/${currentId}`);
+    } else {
+      navigate("/");
     }
     clear();
-    navigate("/");
+    setCurrentId(null);
   };
 
   return (
@@ -60,20 +66,28 @@ const Form = ({ currentId, setCurrentId }) => {
       <Paper
         sx={{
           padding: theme.spacing(2),
-          backgroundColor: "rgba(255, 255, 255, 0.9)", // Slightly opaque for elegance
+          backgroundColor: "rgba(255, 255, 255, 0.9)",
           margin: "auto",
-          marginTop: "30px",
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' }, // Column for small screens, row for medium+
+          marginTop: "70px",
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
           width: {
-            xs: "100%", 
+            xs: "100%",
             sm: "500px",
-            md: "700px", 
+            md: "700px",
           },
         }}
       >
-        
-        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: { xs: 0, md: '20px' }, marginBottom: { xs: '20px', md: 0 } }}>
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginRight: { xs: 0, md: "20px" },
+            marginBottom: { xs: "20px", md: 0 },
+          }}
+        >
           <ImageUploader setPostData={setPostData} postData={postData} />
         </Box>
         <Box sx={{ flex: 2 }}>
@@ -88,7 +102,9 @@ const Form = ({ currentId, setCurrentId }) => {
               sx={{ marginBottom: 2 }}
               fullWidth
               value={postData.title}
-              onChange={(e) => setPostData({ ...postData, title: e.target.value })}
+              onChange={(e) =>
+                setPostData({ ...postData, title: e.target.value })
+              }
             />
             <TextField
               name="author"
@@ -97,7 +113,9 @@ const Form = ({ currentId, setCurrentId }) => {
               sx={{ marginBottom: 2 }}
               fullWidth
               value={postData.author}
-              onChange={(e) => setPostData({ ...postData, author: e.target.value })}
+              onChange={(e) =>
+                setPostData({ ...postData, author: e.target.value })
+              }
             />
             <TextField
               name="desc"
@@ -108,7 +126,9 @@ const Form = ({ currentId, setCurrentId }) => {
               multiline
               rows={4}
               value={postData.desc}
-              onChange={(e) => setPostData({ ...postData, desc: e.target.value })}
+              onChange={(e) =>
+                setPostData({ ...postData, desc: e.target.value })
+              }
             />
             <TextField
               name="genre"
@@ -117,7 +137,9 @@ const Form = ({ currentId, setCurrentId }) => {
               sx={{ marginBottom: 2 }}
               fullWidth
               value={postData.genre}
-              onChange={(e) => setPostData({ ...postData, genre: e.target.value })}
+              onChange={(e) =>
+                setPostData({ ...postData, genre: e.target.value })
+              }
             />
             <TextField
               name="pages"
@@ -126,7 +148,9 @@ const Form = ({ currentId, setCurrentId }) => {
               sx={{ marginBottom: 2 }}
               fullWidth
               value={postData.pages}
-              onChange={(e) => setPostData({ ...postData, pages: e.target.value })}
+              onChange={(e) =>
+                setPostData({ ...postData, pages: e.target.value })
+              }
             />
             <TextField
               name="price"
@@ -135,7 +159,9 @@ const Form = ({ currentId, setCurrentId }) => {
               sx={{ marginBottom: 2 }}
               fullWidth
               value={postData.price}
-              onChange={(e) => setPostData({ ...postData, price: e.target.value })}
+              onChange={(e) =>
+                setPostData({ ...postData, price: e.target.value })
+              }
             />
             <Button
               sx={{ marginBottom: 1 }}

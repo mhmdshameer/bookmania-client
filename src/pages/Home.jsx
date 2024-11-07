@@ -31,7 +31,7 @@ const Home = ({searchWord}) => {
     <Grow in>
       <Container
       sx={{
-        marginTop: "10px"
+        marginTop: "70px"
       }}
       >
         <Grid2
@@ -44,15 +44,17 @@ const Home = ({searchWord}) => {
        {searchWord && searchPosts.length > 0 &&(
 
             <Grid2 item xs={12} sm={9} md={6} >
-            <Typography variant="h5" align="center" sx={{mb: 2, mt: 2, color: "#ffff"}}>{searchPosts.length>1?"Searched Posts":"Search Post"}</Typography>
+            <Typography variant="h5" align="center" sx={{mb: 2, mt: 2, color: "#E5E4E2"}}>{searchPosts.length>1?"Searched Posts":"Search Post"}</Typography>
                <Recommended posts={searchPosts}/> 
             </Grid2>
         )}
-            
+
+        { searchPosts.length === 0 &&(    
             <Grid2 item xs={12} sm={9} md={6} >
-            <Typography variant="h5" align="center" sx={{mb: 2, mt: 2, color: "#ffff"}}>Recommended</Typography>
+            <Typography variant="h5" align="center" sx={{mb: 2, mt: 2, color: "#D4AF37"}}>Recommended</Typography>
                <Recommended posts={posts}/> 
             </Grid2>
+        )}
             <Grid2 item xs={12} sm={9} md={6} >
             <Typography variant="h5" align="center" sx={{mb: 2, mt: 2, color: "#ffff"}}>All Books</Typography>
                <Posts posts={posts}/> 

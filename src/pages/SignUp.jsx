@@ -14,7 +14,6 @@ const SignUpContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f3f4f6;
 `;
 
 const FormWrapper = styled.div`
@@ -96,7 +95,7 @@ const initialState = {
 const SignUp = () => {
   const [formData, setFormData] = useState(initialState);
   const [errorMessage,setErrorMessage] =useState("")
-  const [avatarUrl, setAvatarUrl] = useState(null); // State to store image URL
+  const [avatarUrl, setAvatarUrl] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -121,7 +120,6 @@ const SignUp = () => {
       <FormWrapper>
         <Title>Sign Up</Title>
 
-        {/* Avatar Upload Component */}
         <AvatarUploader setAvatarUrl={setAvatarUrl} />
 
         <form onSubmit={handleSignUp}>

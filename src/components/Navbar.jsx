@@ -12,7 +12,7 @@ import {
 import { LibraryBooks as LibraryIcon, MoreVert as MoreVertIcon } from "@mui/icons-material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "./Searchbar";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 
 const Navbar = ({ setSearchWord }) => {
@@ -22,7 +22,7 @@ const Navbar = ({ setSearchWord }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
   const userRole = user?.result?.role;
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchor, setAnchor] = useState(null);
 
   const handleLogOut = () => {
     dispatch({ type: "LOGOUT" });
@@ -30,30 +30,30 @@ const Navbar = ({ setSearchWord }) => {
   };
 
   const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchor(event.currentTarget);
   };
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
+    setAnchor(null);
   };
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: "#001" }}>
+      <AppBar position="fixed" sx={{ backgroundColor: "#0D1B2A" }}>
         <Toolbar>
           <Link to="/" style={{ textDecoration: "none" }}>
             <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
               <LibraryIcon
-                sx={{ color: "#D9A05B", fontSize: "2rem", marginRight: "0.5rem" }}
+                sx={{ color: "#E5E4E2", fontSize: "2rem", marginRight: "0.5rem" }}
               />
               <Typography
-                variant="h5" // Adjusted size for better responsiveness
+                variant="h5" 
                 sx={{
-                  color: "#D9A05B",
+                  color: "#E5E4E2",
                   fontFamily: "Merriweather, Georgia, serif",
                   fontWeight: "bold",
                   textShadow: "1px 1px 2px rgba(0,0,0,0.3)",
-                  fontSize: { xs: "1.5rem", sm: "2rem" }, // Responsive font size
+                  fontSize: { xs: "1.5rem", sm: "2rem" },
                 }}
               >
                 Bookmania
@@ -95,7 +95,7 @@ const Navbar = ({ setSearchWord }) => {
                 <Button
                   onClick={handleLogOut}
                   variant="outlined"
-                  sx={{ marginLeft: 2, color: "#D9A05B", borderColor: "#D9A05B" }}
+                  sx={{ marginLeft: 2, color: "#E5E4E2", }}
                 >
                   Log out
                 </Button>
@@ -105,7 +105,7 @@ const Navbar = ({ setSearchWord }) => {
                       variant="contained"
                       sx={{
                         marginLeft: 2,
-                        backgroundColor: "#D9A05B",
+                        backgroundColor: "#E5E4E2",
                         color: "#2E3B4E",
                       }}
                     >
@@ -119,7 +119,7 @@ const Navbar = ({ setSearchWord }) => {
                 <Link to="/signin">
                   <Button
                     variant="outlined"
-                    sx={{ marginLeft: 2, color: "#D9A05B", borderColor: "#D9A05B" }}
+                    sx={{ marginLeft: 2, color: "#E5E4E2" }}
                   >
                     Sign In
                   </Button>
@@ -129,7 +129,7 @@ const Navbar = ({ setSearchWord }) => {
                     variant="contained"
                     sx={{
                       marginLeft: 2,
-                      backgroundColor: "#D9A05B",
+                      backgroundColor: "#E5E4E2",
                       color: "#2E3B4E",
                     }}
                   >
@@ -143,8 +143,8 @@ const Navbar = ({ setSearchWord }) => {
       </AppBar>
 
       <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
+        anchor={anchor}
+        open={Boolean(anchor)}
         onClose={handleMenuClose}
         PaperProps={{
           sx: {

@@ -11,7 +11,6 @@ const SignInContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f3f4f6;
 `;
 
 const FormWrapper = styled.div`

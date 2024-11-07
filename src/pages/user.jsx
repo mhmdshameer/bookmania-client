@@ -110,7 +110,7 @@ const User = ({ setCurrentId }) => {
               xs={12}
               md={4}
               sx={{
-                backgroundColor: "#03013000",
+                backgroundColor: "#E5E4E2",
                 color: "white",
                 padding: 3,
                 textAlign: "center",
@@ -131,7 +131,7 @@ const User = ({ setCurrentId }) => {
                   border: "3px solid white",
                 }}
               />
-              <Typography variant="h5" gutterBottom sx={{ color: "#A65E3D" }}>
+              <Typography variant="h5" gutterBottom sx={{ color: "#0D1B2A" }}>
                 {user.username}
               </Typography>
               <Box
@@ -177,10 +177,10 @@ const User = ({ setCurrentId }) => {
               onSave={handleSave}
             />
 
-            <Grid item xs={12} md={8} sx={{ backgroundColor: "#3A4750" }}>
+            <Grid item xs={12} md={8} sx={{ backgroundColor: "#800020" }}>
               <Typography
                 variant="h6"
-                color="#E2E8D9"
+                color="#F7E7CE"
                 gutterBottom
                 sx={{ margin: "20px" }}
               >
@@ -203,7 +203,7 @@ const User = ({ setCurrentId }) => {
                         </ListItemAvatar>
                         <ListItemText
                           primary={
-                            <Typography variant="subtitle1" color="#D1A054">
+                            <Typography variant="subtitle1" color="#E5E4E2">
                               {book.title}
                             </Typography>
                           }

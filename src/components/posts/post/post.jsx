@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Post = ({ post }) => {
   const navigate = useNavigate();
   const openPost = () => {
-     navigate(`/book/${post._id}`);
+    navigate(`/book/${post._id}`);
   };
 
   return (
@@ -14,10 +14,10 @@ const Post = ({ post }) => {
       raised
       elevation={8}
       sx={{
-        width: "140px",
-        height: "270px",
+        width: "120px",
+        height: "250px",
         borderRadius: "10px",
-        backgroundColor:"rgba(46, 59, 78, 0.8)",
+        backgroundColor: "rgba(46, 59, 78, 0.8)",
         cursor: "pointer",
         overflow: "hidden",
         display: "flex",
@@ -36,11 +36,13 @@ const Post = ({ post }) => {
         component="img"
         image={post.selectedFile || "https://via.placeholder.com/150"}
         alt={post.title}
+        raised
+        elevation={8}
         sx={{
           height: "95%",
-          width: "95%", 
+          width: "95%",
           objectFit: "contain",
-          borderRadius: "8px", 
+          borderRadius: "8px",
         }}
       />
       <Box
@@ -61,11 +63,11 @@ const Post = ({ post }) => {
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            maxWidth: "100%", 
+            maxWidth: "100%",
           }}
         >
           {post.title.length > 20
-            ? `${post.title.slice(0, 20)}...`
+            ? `${post.title.slice(0, 15)}...`
             : post.title}
         </Typography>
 

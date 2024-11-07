@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 const UploadAvatar = styled(Avatar)(({ theme }) => ({
   width: 120,
@@ -49,7 +50,7 @@ const EditUserModal = ({ open, onClose, user, onSave }) => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProfile(reader.result); // Use base64 for preview
+        setProfile(reader.result); 
       };
       reader.readAsDataURL(file);
     }
@@ -65,7 +66,7 @@ const EditUserModal = ({ open, onClose, user, onSave }) => {
       <DialogTitle>Edit Profile</DialogTitle>
       <DialogContent>
         <Grid container spacing={4} alignItems="center">
-          {/* Left side with avatar upload */}
+         
           <Grid item xs={12} sm={5} position="relative" display="flex" justifyContent="center">
             <UploadAvatar src={profile || "/defaultProfile.png"} alt="User Avatar" />
             <UploadButton component="label">
@@ -74,7 +75,7 @@ const EditUserModal = ({ open, onClose, user, onSave }) => {
             </UploadButton>
           </Grid>
           
-          {/* Right side with text fields */}
+        
           <Grid item xs={12} sm={7}>
             <Box display="flex" flexDirection="column" gap={2}>
               <TextField

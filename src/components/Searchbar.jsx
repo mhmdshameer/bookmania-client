@@ -1,9 +1,9 @@
-// Import the required libraries
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 
-// Styled components
+
 const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;

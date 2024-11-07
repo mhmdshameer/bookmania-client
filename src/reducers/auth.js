@@ -3,14 +3,18 @@ const authReducers = (state = { authData: null }, action) => {
     case "AUTH":
       localStorage.setItem("profile", JSON.stringify(action.payload));
       return { ...state, authData: action.payload };
-      
+    case "UPDATE_USER":
+      localStorage.setItem("profile", JSON.stringify(action.payload));
+      console.log(action.payload)
+      return { ...state, authData: action.payload };
+
     case "LOGOUT":
-      localStorage.clear(); 
+      localStorage.clear();
       return { ...state, authData: null };
-      
+
     case "TAKE": {
       const { userId, bookId } = action.payload;
-      
+
       if (state.authData?.result?._id === userId) {
         const updatedUser = {
           ...state.authData.result,
@@ -18,16 +22,16 @@ const authReducers = (state = { authData: null }, action) => {
         };
 
         const updatedAuthData = { ...state.authData, result: updatedUser };
-        
+
         return { ...state, authData: updatedAuthData };
       }
 
       return state;
     }
-    
+
     case "RETURN": {
       const { bookId } = action.payload;
-    console.log("book:",bookId)
+      console.log("book:", bookId);
       const updatedAuthData = {
         ...state.authData,
         result: {

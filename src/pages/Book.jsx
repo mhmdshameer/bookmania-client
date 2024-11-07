@@ -42,12 +42,15 @@ const Book = ({ setCurrentId }) => {
   const handleDelete = async () => {
     await api.deletePost(id);
     dispatch({ type: "DELETE_POST", payload: id });
-    navigate("/signup");
+    console.log("Book deleted")
+    navigate("/")
   };
-
+  
+  const currentUser = JSON.parse(localStorage?.getItem("profile"))?.result;
   const handleBook = async () => {
     const userId = user?.result?._id;
     const bookId = id;
+
 
     if (authData?.result.book.includes(bookId)) {
       await api.returnBook(userId, bookId);
@@ -67,7 +70,7 @@ const Book = ({ setCurrentId }) => {
   sx={{
     width: { xs: "100%", sm: "80%" },
     height: { xs: "100vh", sm: "auto" },
-    margin: "50px auto",
+    margin: "100px auto",
     display: "flex",
     flexDirection: { xs: "column", sm: "row" }, 
     backgroundColor: "rgba(255, 255, 255, 0.1)",
@@ -161,7 +164,7 @@ const Book = ({ setCurrentId }) => {
             >
               Price: ${post.price}
             </Typography>
-            <Button
+            {currentUser && (<Button
               variant="contained"
               onClick={handleBook}
               disabled={!post.available && !authData?.result.book.includes(id)}
@@ -187,7 +190,7 @@ const Book = ({ setCurrentId }) => {
                 : !post.available
                 ? "Not Available"
                 : "Take Book"}
-            </Button>
+            </Button>)}
             {user?.result?.role === "admin" && (
               <Box
                 sx={{

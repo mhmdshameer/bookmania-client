@@ -3,7 +3,7 @@ import React from 'react'
 import Post from './posts/post/post'
 
 const Recommended = ({posts}) => {
-  const demandPosts = [...posts].sort((a,b) => b.demand - a.demand).slice(0,6)
+  const demandPosts = [...posts].sort((a,b) => b.demand - a.demand).slice(0,5)
   return (
     <Grid2
      container

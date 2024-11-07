@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { MdFileUpload } from "react-icons/md";
+import { MdFileUpload, MdCancel } from "react-icons/md";
 
 const AvatarWrapper = styled.div`
   display: flex;
@@ -11,23 +11,36 @@ const AvatarWrapper = styled.div`
 `;
 
 const Avatar = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   object-fit: cover;
   background-color: #e0e0e0;
 `;
 
-const UploadIconWrapper = styled.div`
+const UploadIconWrapper = styled.label`
   position: absolute;
-  bottom: ${props => (props.hasImage ? "10%" : "50%")};
-  right: ${props => (props.hasImage ? "35%" : "50%")};
-  transform: ${props => (props.hasImage ? "translate(0, 0)" : "translate(50%, 50%)")};
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
-  border-radius: 10%;
-  padding: ${props => (props.hasImage ? "1px" : "10px")};
+  border-radius: 50%;
+  padding: 5px;
   cursor: pointer;
+  display: ${(props) => (props.hasImage ? "none" : "flex")};
+  align-items: center;
+  justify-content: center;
+`;
+
+const CancelIconWrapper = styled.div`
+  position: absolute;
+  right: 140px;
+  color: red;
+  border-radius: 50%;
+  padding: 7px;
+  cursor: pointer;
+  display: ${(props) => (props.hasImage ? "block" : "none")};
 `;
 
 const ErrorMessage = styled.p`
@@ -44,7 +57,7 @@ const AvatarUploader = ({ setAvatarUrl }) => {
     const file = e.target.files[0];
     
     if (file) {
-      if (file.size > 4 * 1024 * 1024) { 
+      if (file.size > 4 * 1024 * 1024) { // 4MB file size limit
         setError("Please choose an image smaller than 4 MB.");
         return;
       }
@@ -59,13 +72,16 @@ const AvatarUploader = ({ setAvatarUrl }) => {
     }
   };
 
+  const handleCancelImage = () => {
+    setAvatar(null);
+    setAvatarUrl(null);
+  };
+
   return (
     <AvatarWrapper>
       <Avatar src={avatar || "images/noAvatar.avif"} alt="Avatar" />
-      <UploadIconWrapper hasImage={!!avatar}>
-        <label htmlFor="avatar-upload">
-          <MdFileUpload size={24} />
-        </label>
+      <UploadIconWrapper htmlFor="avatar-upload" hasImage={!!avatar}>
+        <MdFileUpload size={24} />
         <input
           type="file"
           id="avatar-upload"
@@ -74,6 +90,9 @@ const AvatarUploader = ({ setAvatarUrl }) => {
           accept="image/*"
         />
       </UploadIconWrapper>
+      <CancelIconWrapper hasImage={!!avatar} onClick={handleCancelImage}>
+        <MdCancel size={20} />
+      </CancelIconWrapper>
       {error && <ErrorMessage>{error}</ErrorMessage>}
     </AvatarWrapper>
   );

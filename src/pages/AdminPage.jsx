@@ -9,6 +9,7 @@ import {
   CardActions,
   Box,
   Grid,
+  Grid2,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
@@ -48,47 +49,41 @@ const AdminPage = ({ searchWord }) => {
 
   const handleDelete = async (userId) => {
     await api.deleteUser(userId);
-    dispatch({ type: "DELETE_USER", payload: userId });
-    const { data } = await api.fetchSearchUsers(searchWord);
+    const { data } = await api.fetchUsers();
     setUsers(data);
   };
+  const currentUser = JSON.parse(localStorage?.getItem("profile"))?.result;
 
-  return (
+  return currentUser.role === "admin" ? (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box
-        sx={{
-          background: theme.palette.background.default,
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: { xs: 2, sm: 4 },
-          boxSizing: "border-box",
-        }}
-      >
+      {/* <CssBaseline /> */}
+      <Box sx={{mt:"100px"}}>
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+          sx={{
+            mt: "30px",
+            mb: "30px",
+            fontWeight: "bold",
+            color: "#A7BDAF",
+          }}
+        >
+          Users List
+        </Typography>
         <Box
           sx={{
             width: "100%",
-            maxWidth: { xs: "100%", md: "1200px" },
+            height: "100vh",
+            mt: "50px",
             borderRadius: 2,
+            display: "flex",
+            justifyContent: "center",
             padding: { xs: 2, sm: 3 },
             boxShadow: { xs: 2, md: 5 },
           }}
         >
-          <Typography
-            variant="h4"
-            align="center"
-            gutterBottom
-            sx={{
-              fontWeight: "bold",
-              color: "#A7BDAF",
-              marginBottom: 3,
-            }}
-          >
-            User List
-          </Typography>
-          <Grid container spacing={2}>
+          <Grid2 container>
             {users
               ?.filter((user) => user.role !== "admin")
               .map((user) => (
@@ -97,6 +92,8 @@ const AdminPage = ({ searchWord }) => {
                     onClick={() => navigate(`/user/${user._id}`)}
                     sx={{
                       backgroundColor: "#0005",
+                      width: "200px",
+                      ml: "20px",
                       borderRadius: "8px",
                       display: "flex",
                       flexDirection: "column",
@@ -167,10 +164,12 @@ const AdminPage = ({ searchWord }) => {
                   </Card>
                 </Grid>
               ))}
-          </Grid>
+          </Grid2>
         </Box>
       </Box>
     </ThemeProvider>
+  ) : (
+    navigate("/")
   );
 };
 
