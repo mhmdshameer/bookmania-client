@@ -57,8 +57,8 @@ const AvatarUploader = ({ setAvatarUrl }) => {
     const file = e.target.files[0];
     
     if (file) {
-      if (file.size > 4 * 1024 * 1024) { // 4MB file size limit
-        setError("Please choose an image smaller than 4 MB.");
+      if (file.size > 3 * 1024 * 1024) {
+        setError("Please choose an image smaller than 3 MB.");
         return;
       }
       setError(""); 

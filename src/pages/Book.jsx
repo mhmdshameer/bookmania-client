@@ -42,15 +42,14 @@ const Book = ({ setCurrentId }) => {
   const handleDelete = async () => {
     await api.deletePost(id);
     dispatch({ type: "DELETE_POST", payload: id });
-    console.log("Book deleted")
-    navigate("/")
+    console.log("Book deleted");
+    navigate("/");
   };
-  
+
   const currentUser = JSON.parse(localStorage?.getItem("profile"))?.result;
   const handleBook = async () => {
     const userId = user?.result?._id;
     const bookId = id;
-
 
     if (authData?.result.book.includes(bookId)) {
       await api.returnBook(userId, bookId);
@@ -67,33 +66,33 @@ const Book = ({ setCurrentId }) => {
 
   return (
     <Container
-  sx={{
-    width: { xs: "100%", sm: "80%" },
-    height: { xs: "100vh", sm: "auto" },
-    margin: "100px auto",
-    display: "flex",
-    flexDirection: { xs: "column", sm: "row" }, 
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    borderRadius: "8px",
-    boxShadow: 3,
-    padding: "20px",
-    backdropFilter: "blur(10px)",
-    alignItems: "center", 
-    justifyContent: "center",  
-  }}
+      sx={{
+        width: { xs: "100%", sm: "80%" },
+        height: { xs: "100vh", sm: "auto" },
+        margin: "100px auto",
+        display: "flex",
+        flexDirection: { xs: "column", sm: "row" },
+        backgroundColor: "rgba(255, 255, 255, 0.1)",
+        borderRadius: "8px",
+        boxShadow: 3,
+        padding: "20px",
+        backdropFilter: "blur(10px)",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
     >
       {post ? (
         <>
           <Box
-        sx={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginBottom: { xs: "20px", sm: "0" },
-          marginLeft: {sm: "20px"},
-          width: { xs: "100%", sm: "auto" },  
-        }}
+            sx={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: { xs: "20px", sm: "0" },
+              marginLeft: { sm: "20px" },
+              width: { xs: "100%", sm: "auto" },
+            }}
           >
             <Avatar
               alt={post.title}
@@ -112,9 +111,9 @@ const Book = ({ setCurrentId }) => {
               flex: 2,
               display: "flex",
               flexDirection: "column",
-              alignItems: { xs: "center", sm: "flex-start" }, 
+              alignItems: { xs: "center", sm: "flex-start" },
               textAlign: { xs: "center", sm: "left" },
-              width: { xs: "100%", sm: "auto" }, 
+              width: { xs: "100%", sm: "auto" },
             }}
           >
             <Typography
@@ -164,33 +163,38 @@ const Book = ({ setCurrentId }) => {
             >
               Price: ${post.price}
             </Typography>
-            {currentUser && (<Button
-              variant="contained"
-              onClick={handleBook}
-              disabled={!post.available && !authData?.result.book.includes(id)}
-              sx={{
-                backgroundColor: authData?.result.book.includes(id)
-                  ? "#D9A05B"
-                  : !post.available
-                  ? "#999999"
-                  : "#D9A05B",
-                color: "#2E3B4E",
-                width: { xs: "100%", sm: "auto" },
-                "&:hover": {
+
+            {currentUser ? (
+              <Button
+                variant="contained"
+                onClick={handleBook}
+                disabled={
+                  !post.available && !authData?.result.book.includes(id)
+                }
+                sx={{
                   backgroundColor: authData?.result.book.includes(id)
-                    ? "#B68A44"
+                    ? "#D9A05B"
                     : !post.available
                     ? "#999999"
-                    : "#B68A44",
-                },
-              }}
-            >
-              {authData?.result.book.includes(id)
-                ? "Return Book"
-                : !post.available
-                ? "Not Available"
-                : "Take Book"}
-            </Button>)}
+                    : "#D9A05B",
+                  color: "#2E3B4E",
+                  width: { xs: "100%", sm: "auto" },
+                  "&:hover": {
+                    backgroundColor: authData?.result.book.includes(id)
+                      ? "#B68A44"
+                      : !post.available
+                      ? "#999999"
+                      : "#B68A44",
+                  },
+                }}
+              >
+                {authData?.result.book.includes(id)
+                  ? "Return Book"
+                  : !post.available
+                  ? "Not Available"
+                  : "Take Book"}
+              </Button>
+            ) : null}
             {user?.result?.role === "admin" && (
               <Box
                 sx={{
