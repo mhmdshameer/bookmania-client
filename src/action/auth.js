@@ -17,9 +17,7 @@ export const signin =
   async (dispatch) => {
     try {
       const { data } = await api.signIn({ email, password });
-      console.log(data);
       dispatch({ type: "AUTH", payload:{ result: data.result, token: data.token } });
-      console.log("dispatched");
       navigate("/");
     } catch (error) {
       const message = error.response

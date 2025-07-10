@@ -100,7 +100,7 @@ const SignIn = () => {
     setErrorMessage(""); // Reset error message
 
     try {
-      await dispatch(signin({ email, password }, navigate)); // Await dispatch
+      await dispatch(signin({ email, password }, navigate)); 
     } catch (error) {
       setErrorMessage(error.message); // Set error message on catch
     }
